@@ -25,7 +25,6 @@ class ViewController: UIViewController
         }
         else
         {
-            display.text = digit
             userIsTypingNumber = true
         }
     }
