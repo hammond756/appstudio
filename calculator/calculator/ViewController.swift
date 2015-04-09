@@ -48,6 +48,13 @@ class ViewController: UIViewController
     // link to the operators
     @IBAction func operate(sender: UIButton)
     {
+        // shortcut for user experience
+        if userIsTyping
+        {
+            enter()
+        }
+        
+        // tell the brain to preform selected operation
         if let operation = sender.currentTitle
         {
             if let result = brain.preformOperation(operation)
@@ -61,12 +68,6 @@ class ViewController: UIViewController
             
             // add the operator to the log
             log.text = log.text! + operation + ", "
-        }
-        
-        // shortcut for user experience
-        if userIsTyping
-        {
-            enter()
         }
     }
     
@@ -98,6 +99,7 @@ class ViewController: UIViewController
         // user is not typing and check for float is reset
         userIsTyping = false
         numberIsFloat = false
+        
         // add number on screen to stack
         if let result = brain.pushOperand(displayValue!)
         {
@@ -117,6 +119,10 @@ class ViewController: UIViewController
         }
     }
     
+    @IBAction func test(sender: UIButton)
+    {
+        display.text = brain.description
+    }
     // variable to easily change and retrieve the value on screen as a Double
     var displayValue: Double?
     {
