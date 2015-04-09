@@ -20,8 +20,6 @@ class ViewController: UIViewController
     
     // declare variables for checking states and storing numbers
     var userIsTyping = false
-    var isDoingOperation = false
-    var numberTyped = ""
     
     // add the brain
     var brain = CalculatorBrain()
@@ -35,13 +33,11 @@ class ViewController: UIViewController
         if userIsTyping
         {
             display.text = display.text! + digit
-            numberTyped = numberTyped + digit
         }
         else
         {
             display.text = digit
             userIsTyping = true
-            numberTyped = digit
         }
     }
     
@@ -60,14 +56,12 @@ class ViewController: UIViewController
             if let result = brain.preformOperation(operation)
             {
                 displayValue = result
+                log.text = brain.description
             }
             else
             {
                 displayValue = nil
             }
-            
-            // add the operator to the log
-            log.text = log.text! + operation + ", "
         }
     }
     
@@ -104,25 +98,16 @@ class ViewController: UIViewController
         if let result = brain.pushOperand(displayValue!)
         {
             displayValue = result
+            log.text = brain.description
+
         }
         else
         {
             displayValue = nil
         }
         
-        // if number is not yet added to log, add it
-        if numberTyped != ""
-        {
-            log.lineBreakMode = NSLineBreakMode.ByTruncatingHead
-            log.text = log.text! + numberTyped + ", "
-            numberTyped = ""
-        }
     }
     
-    @IBAction func test(sender: UIButton)
-    {
-        display.text = brain.description
-    }
     // variable to easily change and retrieve the value on screen as a Double
     var displayValue: Double?
     {
