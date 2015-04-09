@@ -23,6 +23,9 @@ class ViewController: UIViewController
     var isDoingOperation = false
     var numberTyped = ""
     
+    // add the brain
+    var brain = CalculatorBrain()
+    
     // link to number buttons
     @IBAction func appendDigit(sender: UIButton)
     {
@@ -45,51 +48,24 @@ class ViewController: UIViewController
     // link to the operators
     @IBAction func operate(sender: UIButton)
     {
-        let operation = sender.currentTitle!
+        if let operation = sender.currentTitle
+        {
+            if let result = brain.preformOperation(operation)
+            {
+                displayValue = result
+            }
+            else
+            {
+                displayValue = nil
+            }
+            
+            // add the operator to the log
+            log.text = log.text! + operation + ", "
+        }
         
         // shortcut for user experience
         if userIsTyping
         {
-            enter()
-        }
-        
-        // preform required operation on operandStack
-        switch operation
-        {
-        case "×": preformOperation {$0 * $1} 
-        case "÷": preformOperation {$1 / $0}
-        case "+": preformOperation {$0 + $1}
-        case "−": preformOperation {$1 - $0}
-        case "√": preformOperation { sqrt($0) }
-        // exception: pi is added to stack and shown in display
-        case "π":
-            operandStack.append(M_PI)
-            display.text = "\(M_PI)"
-        case "cos": preformOperation { cos($0) }
-        case "sin": preformOperation { sin($0) }
-        default: break
-        }
-        
-        // add the operator to the log
-        log.text = log.text! + operation + ", "
-    }
-    
-    // compute the result for two operands and store in displayValue
-    func preformOperation(operation: (Double, Double) -> Double)
-    {
-        if operandStack.count >= 2
-        {
-            displayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-            enter()
-        }
-    }
-    
-    // compute the result for one operands and store in displayValue
-    func preformOperation(operation: Double -> Double)
-    {
-        if operandStack.count >= 2
-        {
-            displayValue = operation(operandStack.removeLast())
             enter()
         }
     }
@@ -111,13 +87,10 @@ class ViewController: UIViewController
     // link to C button. Sets calculator to original state
     @IBAction func clear()
     {
+        brain.clearMemory()
         display.text = "0"
-        operandStack = []
         log.text = ""
     }
-    
-    // array for holding operands
-    var operandStack = Array<Double>()
     
     // link to 'enter' button
     @IBAction func enter()
@@ -126,7 +99,14 @@ class ViewController: UIViewController
         userIsTyping = false
         numberIsFloat = false
         // add number on screen to stack
-        operandStack.append(displayValue)
+        if let result = brain.pushOperand(displayValue!)
+        {
+            displayValue = result
+        }
+        else
+        {
+            displayValue = nil
+        }
         
         // if number is not yet added to log, add it
         if numberTyped != ""
@@ -138,7 +118,7 @@ class ViewController: UIViewController
     }
     
     // variable to easily change and retrieve the value on screen as a Double
-    var displayValue: Double
+    var displayValue: Double?
     {
         get
         {
@@ -146,7 +126,15 @@ class ViewController: UIViewController
         }
         set
         {
-            display.text = "\(newValue)"
+            // clear display if result is non-computable)
+            if newValue == nil
+            {
+                display.text = " "
+            }
+            else
+            {
+                display.text = "\(newValue!)"
+            }
             userIsTyping = false
         }
     }
