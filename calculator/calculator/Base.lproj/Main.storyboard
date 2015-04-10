@@ -214,17 +214,17 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="operate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KIC-Tx-4JO"/>
+                                    <action selector="addVariable:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Uw-V6-c8O"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YqJ-fr-xJj">
                                 <rect key="frame" x="248" y="496" width="104" height="96"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="38"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                 <state key="normal" title="→M">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="test:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cGK-dz-TAa"/>
+                                    <action selector="setVariable:" destination="BYZ-38-t0r" eventType="touchUpInside" id="56Q-jV-CPG"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y1W-Cx-67f">
@@ -258,12 +258,13 @@
                                     <constraint firstAttribute="width" constant="42" id="gLs-dY-YyV"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oY7-gP-yMc">
+                                <rect key="frame" x="16" y="28" width="255" height="43"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="255" id="N9F-s3-jfb"/>
+                                    <constraint firstAttribute="width" constant="255" id="N9F-s3-jfb"/>
                                     <constraint firstAttribute="width" constant="144" id="Zaw-hH-B6O"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -458,6 +459,7 @@
                                 <exclude reference="xLd-VX-fyD"/>
                                 <exclude reference="HrI-7o-C7B"/>
                                 <exclude reference="JmC-IT-2jJ"/>
+                                <exclude reference="17Q-OV-GKW"/>
                                 <exclude reference="2pw-5H-zkt"/>
                                 <exclude reference="49B-0P-GJE"/>
                                 <exclude reference="Kvj-JX-oK1"/>
@@ -467,15 +469,14 @@
                                 <exclude reference="dVy-T5-L0O"/>
                                 <exclude reference="zQz-uh-XCR"/>
                                 <exclude reference="zbA-7I-M6Q"/>
-                                <exclude reference="17Q-OV-GKW"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="constraints">
                                 <exclude reference="xLd-VX-fyD"/>
+                                <include reference="17Q-OV-GKW"/>
                                 <include reference="49B-0P-GJE"/>
                                 <include reference="zQz-uh-XCR"/>
-                                <include reference="17Q-OV-GKW"/>
                             </mask>
                         </variation>
                     </view>

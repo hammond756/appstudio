@@ -7,7 +7,6 @@
 //  Created by Aron Hammond on 02/04/15.
 //  Copyright (c) 2015 mprog. All rights reserved.
 //
-// bug: in landscape mode verdwijnt het dispaly label. Heb dit niet kunnen verhelpen
 
 import UIKit
 import Darwin
@@ -29,7 +28,7 @@ class ViewController: UIViewController
     {
         let digit = sender.currentTitle!
         
-        // print number on screen and save to numberTyped for logging
+        // print number
         if userIsTyping
         {
             display.text = display.text! + digit
@@ -39,6 +38,14 @@ class ViewController: UIViewController
             display.text = digit
             userIsTyping = true
         }
+        
+        log.text = brain.description
+    }
+    
+    @IBAction func addVariable(sender: UIButton)
+    {
+        let symbol = sender.currentTitle!
+        brain.pushOperand(symbol)
     }
     
     // link to the operators
@@ -65,6 +72,14 @@ class ViewController: UIViewController
         }
     }
     
+    @IBAction func setVariable(sender: UIButton)
+    {
+        if let result = brain.setVariable(sender.currentTitle!, value: displayValue!)
+        {
+            displayValue = result
+            log.text = brain.description
+        }
+    }
     // boolean for checking amount of points typed
     var numberIsFloat = false
     
@@ -99,7 +114,6 @@ class ViewController: UIViewController
         {
             displayValue = result
             log.text = brain.description
-
         }
         else
         {
@@ -127,6 +141,8 @@ class ViewController: UIViewController
                 display.text = "\(newValue!)"
             }
             userIsTyping = false
+            
+            log.text = brain.description
         }
     }
 }

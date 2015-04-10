@@ -18,8 +18,7 @@ class CalculatorBrain: Printable
         case UnaryOperation(String, Double -> Double)
         case BinaryOperation(String, (Double, Double) -> Double)
         case SpecialOperation(String, Double)
-//        case Variable(String)
-//        case setVariable(String, String -> String)
+        case Variable(String)
         
         var description: String
         {
@@ -35,10 +34,8 @@ class CalculatorBrain: Printable
                     return symbol
                 case .SpecialOperation(let symbol, _):
                     return symbol
-//                case .Variable(let symbol):
-//                    return symbol
-//                case .setVariable(let symbol, _):
-//                    return symbol
+                case .Variable(let symbol):
+                    return symbol
                 }
             }
         }
@@ -48,7 +45,7 @@ class CalculatorBrain: Printable
     private var opStack = [Op]()
     private var knownOps = [String:Op]()
     
-//    var variableValues = [String:Double]()
+    var variableValues = [String:Double]()
     
     init()
     {
@@ -67,6 +64,14 @@ class CalculatorBrain: Printable
         learnOp(Op.UnaryOperation("cos") { cos($0) } )
         learnOp(Op.UnaryOperation("sin") { sin($0) } )
         learnOp(Op.SpecialOperation("🍰", M_PI))
+    }
+    
+    // sets variable (called when ->'variable') is touched. So far only works for 1 char variables
+    func setVariable(symbol: String, value: Double) -> Double?
+    {
+        let key = symbol[symbol.startIndex.successor()...symbol.startIndex.successor()]
+        variableValues[key] = value
+        return evaluate()
     }
     
     // recursive function evaluate the opStack
@@ -104,14 +109,11 @@ class CalculatorBrain: Printable
             // return value corresponding to constant symbol
             case .SpecialOperation(_, let operand):
                 return (operand, remainingOps)
-//            case .Variable(let symbol):
-//                if let value = variableValues[symbol]
-//                {
-//                    return (value, remainingOps)
-//                }
-//            case .setVariable(let symbol):
-//                self.variableValues[
-//                evaluate(remainingOps)
+            case .Variable(let symbol):
+                if let value = variableValues[symbol]
+                {
+                    return (value, remainingOps)
+                }
             }
         }
         
@@ -133,18 +135,12 @@ class CalculatorBrain: Printable
         return evaluate()
     }
     
-    
-//    func pushOperand(symbol: String) -> Double?
-//    {
-//        opStack.append(Op.Variable(symbol))
-//        
-//        if variableValues[symbol] == nil
-//        {
-//            variableValues[symbol] = 0
-//        }
-//        
-//        return evaluate()
-//    }
+    func pushOperand(symbol: String) -> Double?
+    {
+        opStack.append(Op.Variable(symbol))
+        println("In push: \(opStack)")
+        return evaluate()
+    }
     
     // add corresponding operation to opStack
     func preformOperation(symbol: String) -> Double?
@@ -157,10 +153,11 @@ class CalculatorBrain: Printable
         return evaluate()
     }
     
-    // clear opStack
+    // clear opStack an variableValues
     func clearMemory()
     {
-        opStack = []
+        opStack = [Op]()
+        variableValues = [String:Double]()
     }
     
     // recursive helper function for describe
@@ -213,8 +210,8 @@ class CalculatorBrain: Printable
             // return the symbol corresponding with constant value
             case .SpecialOperation(let operand, _):
                 return (operand, contentCopy)
-//            case .Variable(let symbol):
-//                return (symbol, contentCopy)
+            case .Variable(let symbol):
+                return (symbol, contentCopy)
 //            case .setVariable(let symbol):
 //                return (symbol, contentCopy)
             }
